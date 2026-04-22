@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <!--
   URDF: KUKA KR15 — célula robotizada
   Paquete ROS 2: 15dimension_collision
@@ -20,18 +20,17 @@
 
   Colisión: primitivas geométricas ajustadas a los bounding boxes reales
 -->
-
 <robot name="kuka_kr15">
 
   <!-- ================================================================
        WORLD — frame de referencia fijo
        ================================================================ -->
-  <link name="world"/>
+  <link name="world" />
 
   <joint name="world_to_base" type="fixed">
-    <parent link="world"/>
-    <child link="base_link"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="world" />
+    <child link="base_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
 
@@ -43,28 +42,29 @@
   <link name="base_link">
 
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://15dimension_collision/meshes/kr15_1_0.stl"
-              scale="0.001 0.001 0.001"/>
+        <mesh
+                    filename="package://15dimension_collision/meshes/kr15_1_0.stl"
+                    scale="0.001 0.001 0.001"
+                />
       </geometry>
       <material name="kuka_orange">
-        <color rgba="1.0 0.45 0.0 1.0"/>
+        <color rgba="1.0 0.45 0.0 1.0" />
       </material>
     </visual>
 
     <collision>
-      <origin xyz="-0.025 -0.124 0.10" rpy="0 0 0"/>
+      <origin xyz="-0.025 -0.124 0.10" rpy="0 0 0" />
       <geometry>
-        <box size="0.50 0.40 0.20"/>
+        <box size="0.50 0.40 0.20" />
       </geometry>
     </collision>
 
     <inertial>
-      <mass value="50.0"/>
-      <origin xyz="0 0 0.10" rpy="0 0 0"/>
-      <inertia ixx="0.8" iyy="0.8" izz="0.6"
-               ixy="0.0" ixz="0.0" iyz="0.0"/>
+      <mass value="50.0" />
+      <origin xyz="0 0 0.10" rpy="0 0 0" />
+      <inertia ixx="0.8" iyy="0.8" izz="0.6" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
 
   </link>
@@ -75,13 +75,12 @@
        d = 675 mm = 0.675 m
        ================================================================ -->
   <joint name="joint_1" type="revolute">
-    <parent link="base_link"/>
-    <child link="link_1"/>
-    <origin xyz="0 0 0.675" rpy="0 0 0"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-3.14159" upper="3.14159"
-           effort="200" velocity="1.745"/>
-    <dynamics damping="0.5" friction="0.1"/>
+    <parent link="base_link" />
+    <child link="link_1" />
+    <origin xyz="0 0 0.675" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-3.14159" upper="3.14159" effort="200" velocity="1.745" />
+    <dynamics damping="0.5" friction="0.1" />
   </joint>
 
 
@@ -93,26 +92,27 @@
   <link name="link_1">
 
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://15dimension_collision/meshes/kr15_1_1.stl"
-              scale="0.001 0.001 0.001"/>
+        <mesh
+                    filename="package://15dimension_collision/meshes/kr15_1_1.stl"
+                    scale="0.001 0.001 0.001"
+                />
       </geometry>
-      <material name="kuka_orange"/>
+      <material name="kuka_orange" />
     </visual>
 
     <collision>
-      <origin xyz="0.107 -0.016 0.07" rpy="0 0 0"/>
+      <origin xyz="0.107 -0.016 0.07" rpy="0 0 0" />
       <geometry>
-        <cylinder radius="0.15" length="0.49"/>
+        <cylinder radius="0.15" length="0.49" />
       </geometry>
     </collision>
 
     <inertial>
-      <mass value="12.0"/>
-      <origin xyz="0.107 -0.016 0.07" rpy="0 0 0"/>
-      <inertia ixx="0.3" iyy="0.3" izz="0.1"
-               ixy="0.0" ixz="0.0" iyz="0.0"/>
+      <mass value="12.0" />
+      <origin xyz="0.107 -0.016 0.07" rpy="0 0 0" />
+      <inertia ixx="0.3" iyy="0.3" izz="0.1" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
 
   </link>
@@ -123,13 +123,12 @@
        a = 300 mm = 0.300 m,  alpha = π/2,  theta_offset = π/2
        ================================================================ -->
   <joint name="joint_2" type="revolute">
-    <parent link="link_1"/>
-    <child link="link_2"/>
-    <origin xyz="0.300 0 0" rpy="1.5708 1.5708 0"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-2.9671" upper="2.9671"
-           effort="200" velocity="1.745"/>
-    <dynamics damping="0.5" friction="0.1"/>
+    <parent link="link_1" />
+    <child link="link_2" />
+    <origin xyz="0.300 0 0" rpy="1.5708 1.5708 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.9671" upper="2.9671" effort="200" velocity="1.745" />
+    <dynamics damping="0.5" friction="0.1" />
   </joint>
 
 
@@ -141,26 +140,27 @@
   <link name="link_2">
 
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://15dimension_collision/meshes/kr15_1_2.stl"
-              scale="0.001 0.001 0.001"/>
+        <mesh
+                    filename="package://15dimension_collision/meshes/kr15_1_2.stl"
+                    scale="0.001 0.001 0.001"
+                />
       </geometry>
-      <material name="kuka_orange"/>
+      <material name="kuka_orange" />
     </visual>
 
     <collision>
-      <origin xyz="0.314 0 -0.123" rpy="0 1.5708 0"/>
+      <origin xyz="0.314 0 -0.123" rpy="0 1.5708 0" />
       <geometry>
-        <cylinder radius="0.10" length="0.827"/>
+        <cylinder radius="0.10" length="0.827" />
       </geometry>
     </collision>
 
     <inertial>
-      <mass value="10.0"/>
-      <origin xyz="0.314 0 -0.123" rpy="0 0 0"/>
-      <inertia ixx="0.05" iyy="0.40" izz="0.40"
-               ixy="0.0" ixz="0.0" iyz="0.0"/>
+      <mass value="10.0" />
+      <origin xyz="0.314 0 -0.123" rpy="0 0 0" />
+      <inertia ixx="0.05" iyy="0.40" izz="0.40" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
 
   </link>
@@ -171,13 +171,12 @@
        a = 650 mm = 0.650 m,  alpha = 0
        ================================================================ -->
   <joint name="joint_3" type="revolute">
-    <parent link="link_2"/>
-    <child link="link_3"/>
-    <origin xyz="0.650 0 0" rpy="0 0 0"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-2.9671" upper="2.9671"
-           effort="150" velocity="1.920"/>
-    <dynamics damping="0.5" friction="0.1"/>
+    <parent link="link_2" />
+    <child link="link_3" />
+    <origin xyz="0.650 0 0" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.9671" upper="2.9671" effort="150" velocity="1.920" />
+    <dynamics damping="0.5" friction="0.1" />
   </joint>
 
 
@@ -189,26 +188,27 @@
   <link name="link_3">
 
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://15dimension_collision/meshes/kr15_1_3.stl"
-              scale="0.001 0.001 0.001"/>
+        <mesh
+                    filename="package://15dimension_collision/meshes/kr15_1_3.stl"
+                    scale="0.001 0.001 0.001"
+                />
       </geometry>
-      <material name="kuka_orange"/>
+      <material name="kuka_orange" />
     </visual>
 
     <collision>
-      <origin xyz="0.053 -0.011 0.069" rpy="0 0 0"/>
+      <origin xyz="0.053 -0.011 0.069" rpy="0 0 0" />
       <geometry>
-        <box size="0.374 0.30 0.298"/>
+        <box size="0.374 0.30 0.298" />
       </geometry>
     </collision>
 
     <inertial>
-      <mass value="6.0"/>
-      <origin xyz="0.053 -0.011 0.069" rpy="0 0 0"/>
-      <inertia ixx="0.05" iyy="0.10" izz="0.10"
-               ixy="0.0" ixz="0.0" iyz="0.0"/>
+      <mass value="6.0" />
+      <origin xyz="0.053 -0.011 0.069" rpy="0 0 0" />
+      <inertia ixx="0.05" iyy="0.10" izz="0.10" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
 
   </link>
@@ -219,13 +219,12 @@
        a = 155 mm,  d = 600 mm,  alpha = π/2
        ================================================================ -->
   <joint name="joint_4" type="revolute">
-    <parent link="link_3"/>
-    <child link="link_4"/>
-    <origin xyz="0.155 0 0.600" rpy="1.5708 0 0"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-3.14159" upper="3.14159"
-           effort="54" velocity="2.967"/>
-    <dynamics damping="0.3" friction="0.05"/>
+    <parent link="link_3" />
+    <child link="link_4" />
+    <origin xyz="0.155 0 0.600" rpy="1.5708 0 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-3.14159" upper="3.14159" effort="54" velocity="2.967" />
+    <dynamics damping="0.3" friction="0.05" />
   </joint>
 
 
@@ -237,26 +236,34 @@
   <link name="link_4">
 
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://15dimension_collision/meshes/kr15_1_4.stl"
-              scale="0.001 0.001 0.001"/>
+        <mesh
+                    filename="package://15dimension_collision/meshes/kr15_1_4.stl"
+                    scale="0.001 0.001 0.001"
+                />
       </geometry>
-      <material name="kuka_orange"/>
+      <material name="kuka_orange" />
     </visual>
 
     <collision>
-      <origin xyz="0.0 0.002 0.127" rpy="0 0 0"/>
+      <origin xyz="0.0 0.002 0.127" rpy="0 0 0" />
       <geometry>
-        <cylinder radius="0.076" length="0.376"/>
+        <cylinder radius="0.076" length="0.376" />
       </geometry>
     </collision>
 
     <inertial>
-      <mass value="3.5"/>
-      <origin xyz="0.0 0.002 0.127" rpy="0 0 0"/>
-      <inertia ixx="0.02" iyy="0.02" izz="0.008"
-               ixy="0.0" ixz="0.0" iyz="0.0"/>
+      <mass value="3.5" />
+      <origin xyz="0.0 0.002 0.127" rpy="0 0 0" />
+      <inertia
+                ixx="0.02"
+                iyy="0.02"
+                izz="0.008"
+                ixy="0.0"
+                ixz="0.0"
+                iyz="0.0"
+            />
     </inertial>
 
   </link>
@@ -267,13 +274,12 @@
        alpha = π/2
        ================================================================ -->
   <joint name="joint_5" type="revolute">
-    <parent link="link_4"/>
-    <child link="link_5"/>
-    <origin xyz="0 0 0" rpy="1.5708 0 0"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-3.14159" upper="3.14159"
-           effort="54" velocity="2.967"/>
-    <dynamics damping="0.3" friction="0.05"/>
+    <parent link="link_4" />
+    <child link="link_5" />
+    <origin xyz="0 0 0" rpy="1.5708 0 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-3.14159" upper="3.14159" effort="54" velocity="2.967" />
+    <dynamics damping="0.3" friction="0.05" />
   </joint>
 
 
@@ -285,26 +291,34 @@
   <link name="link_5">
 
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://15dimension_collision/meshes/kr15_1_5.stl"
-              scale="0.001 0.001 0.001"/>
+        <mesh
+                    filename="package://15dimension_collision/meshes/kr15_1_5.stl"
+                    scale="0.001 0.001 0.001"
+                />
       </geometry>
-      <material name="kuka_orange"/>
+      <material name="kuka_orange" />
     </visual>
 
     <collision>
-      <origin xyz="0.0 0.001 0.002" rpy="0 0 0"/>
+      <origin xyz="0.0 0.001 0.002" rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.075"/>
+        <sphere radius="0.075" />
       </geometry>
     </collision>
 
     <inertial>
-      <mass value="2.5"/>
-      <origin xyz="0.0 0.001 0.002" rpy="0 0 0"/>
-      <inertia ixx="0.008" iyy="0.008" izz="0.008"
-               ixy="0.0" ixz="0.0" iyz="0.0"/>
+      <mass value="2.5" />
+      <origin xyz="0.0 0.001 0.002" rpy="0 0 0" />
+      <inertia
+                ixx="0.008"
+                iyy="0.008"
+                izz="0.008"
+                ixy="0.0"
+                ixz="0.0"
+                iyz="0.0"
+            />
     </inertial>
 
   </link>
@@ -315,13 +329,12 @@
        alpha = -π/2
        ================================================================ -->
   <joint name="joint_6" type="revolute">
-    <parent link="link_5"/>
-    <child link="link_6"/>
-    <origin xyz="0 0 0" rpy="-1.5708 0 0"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-3.14159" upper="3.14159"
-           effort="36" velocity="3.316"/>
-    <dynamics damping="0.2" friction="0.02"/>
+    <parent link="link_5" />
+    <child link="link_6" />
+    <origin xyz="0 0 0" rpy="-1.5708 0 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-3.14159" upper="3.14159" effort="36" velocity="3.316" />
+    <dynamics damping="0.2" friction="0.02" />
   </joint>
 
 
@@ -333,26 +346,34 @@
   <link name="link_6">
 
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://15dimension_collision/meshes/kr15_1_6.stl"
-              scale="0.001 0.001 0.001"/>
+        <mesh
+                    filename="package://15dimension_collision/meshes/kr15_1_6.stl"
+                    scale="0.001 0.001 0.001"
+                />
       </geometry>
-      <material name="kuka_orange"/>
+      <material name="kuka_orange" />
     </visual>
 
     <collision>
-      <origin xyz="0.0 0.0 0.018" rpy="0 0 0"/>
+      <origin xyz="0.0 0.0 0.018" rpy="0 0 0" />
       <geometry>
-        <cylinder radius="0.059" length="0.037"/>
+        <cylinder radius="0.059" length="0.037" />
       </geometry>
     </collision>
 
     <inertial>
-      <mass value="1.5"/>
-      <origin xyz="0.0 0.0 0.018" rpy="0 0 0"/>
-      <inertia ixx="0.003" iyy="0.003" izz="0.003"
-               ixy="0.0" ixz="0.0" iyz="0.0"/>
+      <mass value="1.5" />
+      <origin xyz="0.0 0.0 0.018" rpy="0 0 0" />
+      <inertia
+                ixx="0.003"
+                iyy="0.003"
+                izz="0.003"
+                ixy="0.0"
+                ixz="0.0"
+                iyz="0.0"
+            />
     </inertial>
 
   </link>
@@ -363,11 +384,11 @@
        140 mm por delante del flange (eje Z del link_6)
        ================================================================ -->
   <joint name="joint_tcp" type="fixed">
-    <parent link="link_6"/>
-    <child link="tcp"/>
-    <origin xyz="0 0 0.140" rpy="0 0 0"/>
+    <parent link="link_6" />
+    <child link="tcp" />
+    <origin xyz="0 0 0.140" rpy="0 0 0" />
   </joint>
 
-  <link name="tcp"/>
+  <link name="tcp" />
 
 </robot>
