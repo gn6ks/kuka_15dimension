@@ -160,7 +160,7 @@ IK_seed = [0, -0.5, 0, -1, 0.5, 0, 0.5, 0];
 
 ## Citation
 
-If you use this framework in your research or work, we would appreciate ❤️ if you could leave a ⭐ and/or cite it:
+If you use this repository in your research or work, we would appreciate ❤️ if you could leave a ⭐ and/or cite it:
 
 ```bibtex
 @misc{kuka_15dimension,
