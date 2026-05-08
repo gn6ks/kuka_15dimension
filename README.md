@@ -5,7 +5,7 @@
 [![Robot](https://img.shields.io/badge/Robot-KUKA%20KR15-red)](https://www.kuka.com/)
 [![UPV](https://img.shields.io/badge/UPV-Robotics%20Research-green)](https://www.upv.es/)
 
-Simulation of an industrial robotic cell with two **KUKA KR15** robots on a shared linear rail, performing alternate cuts on a workpiece. Features a **real-time inter-robot collision detection** system based on hierarchical poly-sphere envelopes, following Tornero's theory (_"Modelado y Detección de Colisiones en Sistemas Robotizados"_, UPV). Built on top of the [Robotics Toolbox](https://petercorke.com/toolboxes/robotics-toolbox/) by Peter Corke (v9.9).
+Simulation of an industrial robotic cell with two **KUKA KR15** robots on a shared linear rail, performing alternate cuts on a workpiece. Features a **real-time inter-robot collision detection** system based on hierarchical poly-sphere envelopes. Built on top of the [Robotics Toolbox](https://petercorke.com/toolboxes/robotics-toolbox/) by Peter Corke (v9.9).
 
 ---
 
@@ -150,17 +150,6 @@ If you use this repository in your research or work, we would appreciate ❤️ 
   year         = {2026},
   publisher    = {GitHub},
   howpublished = {\url{https://github.com/gn6ks/kuka_15dimension}}
-}
-```
-
-This project builds upon the theory developed at UPV. If you also use the underlying collision detection framework, please cite:
-
-```bibtex
-@techreport{Tornero_ColisionUPV,
-  author      = {Tornero, Josep},
-  title       = {Modelado y Detección de Colisiones en Sistemas Robotizados},
-  institution = {Universitat Politècnica de València (UPV)},
-  year        = {2004}
 }
 ```
 
