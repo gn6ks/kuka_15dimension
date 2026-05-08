@@ -176,11 +176,6 @@ We would like to acknowledge all contributors 🚀
 
 ## Acknowledgements
 
-<<<<<<< HEAD
-|                                                      Logo                                                      | Notes                                                                                                                                  |
-| :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------- |
-=======
 | Logo | Notes |
 |:----:|:------|
->>>>>>> 7d57244aa9819b0ec3432787e25e3f9ec09598ea
 | <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/LOGOUPV.png" alt="UPV" width="150" align="left"> | Developed at the [Universitat Politècnica de València (UPV)](https://www.upv.es/), in the context of robotic research and development. |
