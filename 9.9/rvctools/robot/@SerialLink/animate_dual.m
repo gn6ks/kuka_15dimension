@@ -1,22 +1,14 @@
+%  =========================================================================
+%  Based on the theory of Josep Tornero i Montserrat
+%  Maintainer: gn6ks
+%  =========================================================================
+
+% ANIMATE_DUAL  Animates TWO KR15 robots in the same figure, frame by frame.
+%   The active robot follows its trajectory; the parking robot remains stationary.
+%   In each frame, the poly-spheres of BOTH robots are updated and
+%   inter-robot collision is checked.
 function animate_dual(robotActivo, tray_activo, robotParking, q_parking, ...
                       h_esf_A, esf_data_A, h_esf_B, esf_data_B)
-% ANIMATE_DUAL  Anima DOS robots KR15 en la misma figura, frame a frame.
-%   El robot activo sigue su trayectoria; el robot en parking permanece quieto.
-%   En cada frame se actualizan las poli-esferas de AMBOS robots y se comprueba
-%   la colisión inter-robot según la teoría poli-esférica de Tornero.
-%
-% Uso:
-%   animate_dual(robotActivo, tray_activo, robotParking, q_parking, ...
-%                h_esf_A, esf_data_A, h_esf_B, esf_data_B)
-%
-%   h_esf_A / esf_data_A  → esferas del robot ACTIVO
-%   h_esf_B / esf_data_B  → esferas del robot en PARKING
-%
-% Detección de colisiones:
-%   Se llama a actualizar_esferas_frame() con los 6 argumentos para obtener
-%   [colision, pares]. Si hay colisión se imprime un aviso en consola y las
-%   esferas implicadas se resaltan en rojo. La animación NO se detiene (decisión
-%   de diseño: el control reactivo queda fuera del alcance de este módulo).
 
     handles_activo  = findobj('Tag', robotActivo.name);
     handles_parking = findobj('Tag', robotParking.name);
@@ -25,16 +17,13 @@ function animate_dual(robotActivo, tray_activo, robotParking, q_parking, ...
     N_a      = robotActivo.n;
     N_p      = robotParking.n;
 
-    % ── Precalcular esferas del robot en PARKING (no cambia en el bucle) ──
-    % Se actualiza una sola vez aquí para que c_glob_B esté disponible
-    % en la primera iteración de actualizar_esferas_frame con detección.
     actualizar_esferas_frame(robotParking, q_parking, esf_data_B, h_esf_B);
 
     for fi = 1:size(tray_activo, 1)
         q_a = tray_activo(fi, :);
         q_p = q_parking;
 
-        % ── 1) Actualizar robot ACTIVO (cinemática visual) ─────────────────
+        % ── 1) Update ACTIVE robot (visual kinematics) ─────────────────
         for handle = handles_activo'
             h = get(handle, 'UserData');
             T = robotActivo.base;
@@ -44,7 +33,7 @@ function animate_dual(robotActivo, tray_activo, robotParking, q_parking, ...
                     set(h.link(L), 'Matrix', T);
                 end
                 T    = T * links_a(L).A(q_a(L));
-                vert = [vert; transl(T)']; %#ok<AGROW>
+                vert = [vert; transl(T)'];
             end
             T = T * robotActivo.tool;
             if length(h.link) > N_a
@@ -69,7 +58,7 @@ function animate_dual(robotActivo, tray_activo, robotParking, q_parking, ...
             set(handle, 'UserData', h);
         end
 
-        % ── 2) Actualizar robot PARKING (visual, sin detección) ────────────
+        % ── 2) Update PARKING robot (visual, no detection) ────────────
         for handle = handles_parking'
             h = get(handle, 'UserData');
             T = robotParking.base;
@@ -79,7 +68,7 @@ function animate_dual(robotActivo, tray_activo, robotParking, q_parking, ...
                     set(h.link(L), 'Matrix', T);
                 end
                 T    = T * links_p(L).A(q_p(L));
-                vert = [vert; transl(T)']; %#ok<AGROW>
+                vert = [vert; transl(T)'];
             end
             T = T * robotParking.tool;
             if length(h.link) > N_p
@@ -94,13 +83,13 @@ function animate_dual(robotActivo, tray_activo, robotParking, q_parking, ...
             set(handle, 'UserData', h);
         end
 
-        % ── 3) Actualizar poli-esferas del robot ACTIVO + detección colisión
-        %   Se pasan los 6 argumentos para que actualizar_esferas_frame()
-        %   compruebe la distancia inter-esfera entre ambos robots.
+        % ── 3) Update poly-spheres of ACTIVE robot + collision detection
+        %   The 6 arguments are passed so actualizar_esferas_frame()
+        %   can check the inter-sphere distance between both robots.
         [colision, pares] = actualizar_esferas_frame( ...
             robotActivo, q_a, esf_data_A, h_esf_A, esf_data_B, h_esf_B);
 
-        % ── 4) Un solo drawnow por frame (rendimiento) ─────────────────────
+        % ── 4) Single drawnow per frame (performance) ─────────────────────
         delay = robotActivo.delay;
         if delay > 0
             pause(delay);

@@ -5,25 +5,14 @@
 [![Robot](https://img.shields.io/badge/Robot-KUKA%20KR15-red)](https://www.kuka.com/)
 [![UPV](https://img.shields.io/badge/UPV-Robotics%20Research-green)](https://www.upv.es/)
 
-Simulation of an industrial robotic cell with two **KUKA KR15** robots on a shared linear rail, performing alternate cuts on a workpiece. Features a **real-time inter-robot collision detection** system based on hierarchical poly-sphere envelopes, following Tornero's theory (*"Modelado y Detección de Colisiones en Sistemas Robotizados"*, UPV). Built on top of the [Robotics Toolbox](https://petercorke.com/toolboxes/robotics-toolbox/) by Peter Corke (v9.9).
-
-<table>
-  <tr>
-    <th align="left" width="50%">Cut 1 — Robot A active</th>
-    <th align="left" width="50%">Cut 2 — Robot B active</th>
-  </tr>
-  <tr>
-    <td align="center"><i>Image / GIF — Cut 1</i></td>
-    <td align="center"><i>Image / GIF — Cut 2</i></td>
-  </tr>
-</table>
+Simulation of an industrial robotic cell with two **KUKA KR15** robots on a shared linear rail, performing alternate cuts on a workpiece. Features a **real-time inter-robot collision detection** system based on hierarchical poly-sphere envelopes, following Tornero's theory (_"Modelado y Detección de Colisiones en Sistemas Robotizados"_, UPV). Built on top of the [Robotics Toolbox](https://petercorke.com/toolboxes/robotics-toolbox/) by Peter Corke (v9.9).
 
 ---
 
 ## Status
 
-| OS | MATLAB | Toolbox | Status |
-|:---|:-------|:--------|:-------|
+| OS              | MATLAB    | Toolbox        | Status                                                               |
+| :-------------- | :-------- | :------------- | :------------------------------------------------------------------- |
 | `Windows 10/11` | `R2020b+` | `rvctools 9.9` | [![Build](https://img.shields.io/badge/build-passing-brightgreen)]() |
 
 ---
@@ -36,13 +25,13 @@ Simulation of an industrial robotic cell with two **KUKA KR15** robots on a shar
 
 ## Requirements
 
-| Component | Version | Check |
-|-----------|---------|-------|
-| MATLAB | R2020b or later | `version` |
-| Robotics Toolbox (Corke) | 9.9 | `ver` |
-| vstoolbox | R13 | Included in repo |
-| KUKA 3D models | `KR15_robot1`, `KR15_2_2`, `MESA` | Inside `vstoolbox` |
-| Disk space | 500 MB+ free | `dir` |
+| Component                | Version                           | Check              |
+| ------------------------ | --------------------------------- | ------------------ |
+| MATLAB                   | R2020b or later                   | `version`          |
+| Robotics Toolbox (Corke) | 9.9                               | `ver`              |
+| vstoolbox                | R13                               | Included in repo   |
+| KUKA 3D models           | `KR15_robot1`, `KR15_2_2`, `MESA` | Inside `vstoolbox` |
+| Disk space               | 500 MB+ free                      | `dir`              |
 
 ---
 
@@ -85,11 +74,11 @@ The script handles everything automatically: toolbox paths, IK pre-computation, 
 
 ### Step 3 — Expected output
 
-| Figure | Content |
-|--------|---------|
+| Figure | Content                                                              |
+| ------ | -------------------------------------------------------------------- |
 | Fig. 1 | 3D animation — robots, workpiece, semi-transparent collision spheres |
-| Fig. 2 | Joint velocities — Cut 1 (Robot A) |
-| Fig. 3 | Joint velocities — Cut 2 (Robot B) |
+| Fig. 2 | Joint velocities — Cut 1 (Robot A)                                   |
+| Fig. 3 | Joint velocities — Cut 2 (Robot B)                                   |
 
 When a collision is detected between the two robots, the affected spheres turn **red** and a warning is printed to the console:
 
@@ -103,15 +92,15 @@ When a collision is detected between the two robots, the affected spheres turn *
 
 Each link is wrapped by 1 or 2 spheres computed with **Ritter's algorithm** on the real vertex clouds from `Shapes_Vertex*.mat`, with a **+5% safety margin** on the radius. A bi-sphere is used when it reduces volume by more than 20% over the mono-sphere — following the hierarchical efficiency criterion from Tornero's theory.
 
-| Link | Part | Spheres | Radii (mm) |
-|------|------|---------|------------|
-| 1 | Body / Rail | 1 | 372 |
-| 2 | Shoulder | 2 | 284 / 297 |
-| 3 | Upper arm | 2 | 211 / 190 |
-| 4 | Forearm | 1 | 329 |
-| 5 | Wrist 1 | 2 | 157 / 154 |
-| 6 | Wrist 2 | 2 | 89 / 95 |
-| 7 | End-effector | 1 | 62 |
+| Link | Part         | Spheres | Radii (mm) |
+| ---- | ------------ | ------- | ---------- |
+| 1    | Body / Rail  | 1       | 372        |
+| 2    | Shoulder     | 2       | 284 / 297  |
+| 3    | Upper arm    | 2       | 211 / 190  |
+| 4    | Forearm      | 1       | 329        |
+| 5    | Wrist 1      | 2       | 157 / 154  |
+| 6    | Wrist 2      | 2       | 89 / 95    |
+| 7    | End-effector | 1       | 62         |
 
 Collision condition between a sphere of Robot A and a sphere of Robot B:
 
@@ -125,18 +114,10 @@ All 121 pairs (11 × 11) are checked every frame. Verified: **100% of mesh verti
 
 ## Demos
 
-<table>
-  <tr>
-    <th align="left" width="33%">3D Animation</th>
-    <th align="left" width="33%">Collision Detection</th>
-    <th align="left" width="33%">Joint Velocities</th>
-  </tr>
-  <tr>
-    <td align="center"><i>Image / GIF — Animation</i></td>
-    <td align="center"><i>Image / GIF — Collision</i></td>
-    <td align="center"><i>Image / GIF — Velocities</i></td>
-  </tr>
-</table>
+<p align="center">
+  <b>Matlab Simulation</b><br>
+  <img src="https://raw.githubusercontent.com/gn6ks/kuka_15dimension/main/docs/demos/demo_kuka.gif" alt="MATLAB Simulation">
+</p>
 
 ---
 
@@ -189,12 +170,12 @@ This project builds upon the theory developed at UPV. If you also use the underl
 
 We would like to acknowledge all contributors 🚀
 
-[![celula_kr15 contributors](https://contrib.rocks/image?repo=<your-username>/celula_kr15&max=20)](https://github.com/<your-username>/celula_kr15/graphs/contributors)
+[![kuka_15dimension contributors](https://contrib.rocks/image?repo=gn6ks/kuka_15dimension&max=20)](https://github.com/gn6ks/kuka_15dimension/graphs/contributors)
 
 ---
 
 ## Acknowledgements
 
-| Logo | Notes |
-|:----:|:------|
+|                                                      Logo                                                      | Notes                                                                                                                                  |
+| :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------- |
 | <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/LOGOUPV.png" alt="UPV" width="150" align="left"> | Developed at the [Universitat Politècnica de València (UPV)](https://www.upv.es/), in the context of robotic research and development. |
