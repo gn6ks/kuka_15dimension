@@ -141,7 +141,7 @@ IK_seed = [0, -0.5, 0, -1, 0.5, 0, 0.5, 0];
 
 ## Citation
 
-If you use this framework in your research or work, we would appreciate ❤️ if you could leave a ⭐ and/or cite it:
+If you use this repository in your research or work, we would appreciate ❤️ if you could leave a ⭐ and/or cite it:
 
 ```bibtex
 @misc{kuka_15dimension,
@@ -176,6 +176,11 @@ We would like to acknowledge all contributors 🚀
 
 ## Acknowledgements
 
+<<<<<<< HEAD
 |                                                      Logo                                                      | Notes                                                                                                                                  |
 | :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------- |
+=======
+| Logo | Notes |
+|:----:|:------|
+>>>>>>> 7d57244aa9819b0ec3432787e25e3f9ec09598ea
 | <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/LOGOUPV.png" alt="UPV" width="150" align="left"> | Developed at the [Universitat Politècnica de València (UPV)](https://www.upv.es/), in the context of robotic research and development. |
