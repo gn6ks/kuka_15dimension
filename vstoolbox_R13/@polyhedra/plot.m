@@ -1,4 +1,4 @@
-function plot(p,T,color,s)
+function h = plot(p,T,color,s)
 % POLYHEDRA/PLOT Command figure plot of a polyhedra
      p1=p;
 if nargin < 4
@@ -29,7 +29,7 @@ if p.showv==1
      plot3(p1.m(1,:),p1.m(2,:),p1.m(3,:),s,'MarkerSize',10);
 end
 
-patch('faces',p1.e,'vertices',p1.m(1:3,:)','FaceColor',p.fc);
+h = patch('faces',p1.e,'vertices',p1.m(1:3,:)','FaceColor',p.fc);
 
 
 if ~prevhold

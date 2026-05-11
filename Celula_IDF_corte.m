@@ -185,12 +185,8 @@ title('INITIAL STATE  2 KR15 ROBOTS');
 kukaA.plot3d_Pastor_Tamarit(q_park_A, 'workspace', W);
 kukaB.plot3d_Pastor_Tamarit(q_park_B, 'workspace', W);
 
-% 2. Capture patches before/after drawing the workpiece to identify
-%    only its handles and be able to delete it without affecting the 3D models of the robots.
-patches_antes = findobj(gca, 'Type', 'patch');
-plot(p, ht(T0obj_inicial), 'y');
-patches_despues = findobj(gca, 'Type', 'patch');
-h_tocho = setdiff(patches_despues, patches_antes);
+% 2. Draw the initial workpiece and keep its handle for later updates.
+h_tocho = plot(p, ht(T0obj_inicial), 'y');
 
 MesaRot.plot3d_Pastor_Tamarit(cqi(1), 'workspace', W);
 
@@ -204,17 +200,6 @@ actualizar_esferas_frame(kukaA, q_park_A, esf_data, h_esf_A);
 actualizar_esferas_frame(kukaB, q_park_B, esf_data, h_esf_B);
 
 drawnow; % Force full rendering before animation
-pause(1.5);
-
-% Save workpiece handles to delete ONLY it when updating.
-% polyhedra/plot does not return handles, so we capture them by comparing
-% existing patches before and after drawing the workpiece.
-patches_antes = findobj(gca, 'Type', 'patch');
-plot(p, ht(T0obj_inicial), 'y');
-patches_despues = findobj(gca, 'Type', 'patch');
-h_tocho = setdiff(patches_despues, patches_antes);
-
-MesaRot.plot3d_Pastor_Tamarit(cqi(1), 'workspace', W);
 pause(1.5);
 
 %% =========================================================================
@@ -234,11 +219,10 @@ p = polyhedra(OPoints, [1 2 3 4; 1 2 6 5; 2 3 7 6;
                           5 6 7 8; 3 4 8 7; 1 4 8 5]);
 figure(1);
 title('WORKPIECE UPDATED  preparing Cut 2...');
-delete(h_tocho);
-patches_antes = findobj(gca, 'Type', 'patch');
-plot(p, ht(T0obj_inicial), 'y');
-patches_despues = findobj(gca, 'Type', 'patch');
-h_tocho = setdiff(patches_despues, patches_antes);
+if isgraphics(h_tocho)
+    delete(h_tocho);
+end
+h_tocho = plot(p, ht(T0obj_inicial), 'y');
 drawnow;
 pause(0.5);
 
@@ -261,8 +245,10 @@ p = polyhedra(OPoints, [1 2 3 4; 2 2 9 3; 1 2 6 5; 2 3 7 6;
                           1 4 8 5; 2 9 10 6]);
 figure(1);
 title('SEQUENCE COMPLETED  both robots in rest position');
-delete(h_tocho);
-plot(p, ht(T0obj_inicial), 'y');
+if isgraphics(h_tocho)
+    delete(h_tocho);
+end
+h_tocho = plot(p, ht(T0obj_inicial), 'y');
 drawnow;
 
 msgbox('Program Finished  2 KR15 robots completed all cuts.');
