@@ -116,7 +116,7 @@ All 121 pairs (11 × 11) are checked every frame. Verified: **100% of mesh verti
 
 <p align="center">
   <b>Matlab Simulation</b><br>
-  <img src="https://raw.githubusercontent.com/gn6ks/kuka_15dimension/main/docs/demos/demo_kuka.gif" alt="MATLAB Simulation">
+  <img src="https://raw.githubusercontent.com/gn6ks/kuka_15dimension/main/docs/demos/demo_kuka_vid.mp4" alt="MATLAB Simulation">
 </p>
 
 ---
