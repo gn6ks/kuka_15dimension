@@ -18,6 +18,13 @@ clear all; close all; clc;
 T0 = eye(4);
 W  = [-3, 3, -4, 4, -1, 3];
 
+TRAJ_STEPS = 50;
+BASE_X = -1;
+BASE_Z = -0.305;
+RAIL_Y_A = -1;
+RAIL_Y_B = 1;
+WORKPIECE_SCALE = 0.3;
+
 q_park_A = [-1.5,  0,  0, -pi/2,  0,  0,  0];
 q_park_B = [ 1.5,  0,  0, -pi/2,  0,  0,  0];
 
@@ -35,18 +42,10 @@ function L = crea_eslabones_KR15()
 end
 
 %% --- ROBOT A (odd cuts, rail Y = -1) --------------------------------
-La    = crea_eslabones_KR15();
-kukaA = SerialLink(La);
-kukaA.base    = transl(-1, -1, -0.305) * trotx(-pi/2);
-kukaA.model3d = 'KUKA\KR15_robot1';
-kukaA.name    = 'KR15_A';
+kukaA = build_kuka(RAIL_Y_A, 'KR15_A', BASE_X, BASE_Z);
 
 %% --- ROBOT B (even cuts,  rail Y = +1) --------------------------------
-Lb    = crea_eslabones_KR15();
-kukaB = SerialLink(Lb);
-kukaB.base    = transl(-1, +1, -0.305) * trotx(-pi/2);
-kukaB.model3d = 'KUKA\KR15_robot1';
-kukaB.name    = 'KR15_B';
+kukaB = build_kuka(RAIL_Y_B, 'KR15_B', BASE_X, BASE_Z);
 
 %% --- ARTIFICIAL ROBOT FOR IK CALCULATION --------------------------------
 Lc(1) = Link([0 -0.305 -1 -pi/2], 'standard');
@@ -70,7 +69,7 @@ MesaRot.model3d = 'MESA';
 MesaRot.name    = 'TABLE';
 
 %% --- INITIAL WORKPIECE -----------------------------------------------
-OPoints = 0.3 * [0 0 0; 1 0 0; 1 1 0; 0 1 0;
+OPoints = WORKPIECE_SCALE * [0 0 0; 1 0 0; 1 1 0; 0 1 0;
                   0 0 1; 1 0 1; 1 1 1; 0 1 1]';
 p = polyhedra(OPoints, [1 2 3 4; 1 2 6 5; 2 3 7 6;
                          5 6 7 8; 3 4 8 7; 1 4 8 5]);
@@ -91,18 +90,18 @@ end
 %  T_ini and T_fin must already be in the ckuka local system.
 %  Returns a 7 DOF trajectory for the KR15 (cols 2:8).
 % =========================================================================
-function [tray_KR15, vel_q] = calcula_corte(ckuka, cqi, IK_seed, T_ini, T_fin)
+function [tray_KR15, vel_q] = calcula_corte(ckuka, cqi, IK_seed, T_ini, T_fin, traj_steps)
 
     cqf_ini = ckuka.ikine(T_ini, IK_seed, 'pinv');
     cqf_fin = ckuka.ikine(T_fin, IK_seed, 'pinv');
 
-    tray_aprox  = jtraj(cqi,     cqf_ini, 50);
-    tray_retira = jtraj(cqf_fin, cqi,     50);
+    tray_aprox  = jtraj(cqi,     cqf_ini, traj_steps);
+    tray_retira = jtraj(cqf_fin, cqi,     traj_steps);
 
     % ctraj: linear Cartesian interpolation. IK solved point by point.
-    cTray_corte = ctraj(T_ini, T_fin, 50);
-    tray_corte  = zeros(50, length(cqi));
-    for i = 1:50
+    cTray_corte = ctraj(T_ini, T_fin, traj_steps);
+    tray_corte  = zeros(traj_steps, length(cqi));
+    for i = 1:traj_steps
         tray_corte(i,:) = ckuka.ikine(cTray_corte(:,:,i), IK_seed, 'pinv');
     end
 
@@ -111,11 +110,35 @@ function [tray_KR15, vel_q] = calcula_corte(ckuka, cqi, IK_seed, T_ini, T_fin)
 
     % Joint velocities (differential Jacobian)
     vel_end = [0, 0.005, 0, 0, 0, 0]';   % 5 mm/s in Cartesian Y
-    vel_q   = zeros(50, length(cqi));
-    for i = 1:50
+    vel_q   = zeros(traj_steps, length(cqi));
+    for i = 1:traj_steps
         J = ckuka.jacob0(tray_corte(i,:));
         vel_q(i,:) = pinv(J) * vel_end;
     end
+end
+
+%% =========================================================================
+%  FUNCTION: build_kuka
+% =========================================================================
+function kuka = build_kuka(railY, name, baseX, baseZ)
+    L = crea_eslabones_KR15();
+    kuka = SerialLink(L);
+    kuka.base    = transl(baseX, railY, baseZ) * trotx(-pi/2);
+    kuka.model3d = 'KUKA\KR15_robot1';
+    kuka.name    = name;
+end
+
+%% =========================================================================
+%  FUNCTION: refresh_workpiece
+% =========================================================================
+function h_tocho = refresh_workpiece(h_tocho, p, T0obj_inicial, fig_title)
+    if ~isempty(fig_title)
+        title(fig_title);
+    end
+    if isgraphics(h_tocho)
+        delete(h_tocho);
+    end
+    h_tocho = plot(p, ht(T0obj_inicial), 'y');
 end
 
 %% =========================================================================
@@ -151,11 +174,11 @@ T11_mundo = T0obj_inicial * transl(0.15,  0.40, 0.3) * trotx(pi);
 T13_mundo = T0obj_inicial * transl(0.15, -0.10, 0.3) * trotx(pi);
 
 % Convert to ckuka local system (compensate rail Y=-1)
-T11_A = mundo_a_ckuka(T11_mundo, -1);
-T13_A = mundo_a_ckuka(T13_mundo, -1);
+T11_A = mundo_a_ckuka(T11_mundo, RAIL_Y_A);
+T13_A = mundo_a_ckuka(T13_mundo, RAIL_Y_A);
 
 fprintf('Calculating trajectory Cut 1 (Robot A)...\n');
-[tray_kukaA_c1, vel_c1] = calcula_corte(ckuka, cqi, IK_seed, T11_A, T13_A);
+[tray_kukaA_c1, vel_c1] = calcula_corte(ckuka, cqi, IK_seed, T11_A, T13_A, TRAJ_STEPS);
 
 %% =========================================================================
 %  PRE-CALCULATION CUT 2  Robot B (rail Y = +1)
@@ -167,11 +190,11 @@ T21_mundo = T0obj_inicial * transl(0.00, -0.10, 0.3) * trotx(pi);
 T23_mundo = T0obj_inicial * transl(0.30,  0.30, 0.3) * trotx(pi);
 
 % Convert to ckuka local system (compensate rail Y=+1)
-T21_B = mundo_a_ckuka(T21_mundo, +1);
-T23_B = mundo_a_ckuka(T23_mundo, +1);
+T21_B = mundo_a_ckuka(T21_mundo, RAIL_Y_B);
+T23_B = mundo_a_ckuka(T23_mundo, RAIL_Y_B);
 
 fprintf('Calculating trajectory Cut 2 (Robot B)...\n');
-[tray_kukaB_c2, vel_c2] = calcula_corte(ckuka, cqi, IK_seed, T21_B, T23_B);
+[tray_kukaB_c2, vel_c2] = calcula_corte(ckuka, cqi, IK_seed, T21_B, T23_B, TRAJ_STEPS);
 
 fprintf('Calculation complete. Starting animation...\n\n');
 
@@ -213,16 +236,12 @@ plot_velocidades(vel_c1, 1, 2);
 
 % Update workpiece: delete old geometry and plot only the remaining piece
 % so the cut-off volume disappears from the visualization.
-OPoints = 0.3 * [0 0 0; 0.2/0.3 0 0; 0.2/0.3 1 0; 0 1 0;
+OPoints = WORKPIECE_SCALE * [0 0 0; 0.2/0.3 0 0; 0.2/0.3 1 0; 0 1 0;
                   0 0 1; 0.2/0.3 0 1; 0.2/0.3 1 1; 0 1 1]';
 p = polyhedra(OPoints, [1 2 3 4; 1 2 6 5; 2 3 7 6;
                           5 6 7 8; 3 4 8 7; 1 4 8 5]);
 figure(1);
-title('WORKPIECE UPDATED  preparing Cut 2...');
-if isgraphics(h_tocho)
-    delete(h_tocho);
-end
-h_tocho = plot(p, ht(T0obj_inicial), 'y');
+h_tocho = refresh_workpiece(h_tocho, p, T0obj_inicial, 'WORKPIECE UPDATED  preparing Cut 2...');
 drawnow;
 pause(0.5);
 
@@ -237,18 +256,14 @@ animate_dual(kukaB, tray_kukaB_c2, kukaA, q_park_A, h_esf_B, esf_data, h_esf_A, 
 plot_velocidades(vel_c2, 2, 3);
 
 % Final workpiece: remove previous patch and display the final remaining geometry
-OPoints = 0.3 * [0 0 0; 0.1/0.3 0 0; 0.2/0.3 1 0; 0 1 0;
+OPoints = WORKPIECE_SCALE * [0 0 0; 0.1/0.3 0 0; 0.2/0.3 1 0; 0 1 0;
                   0 0 1; 0.1/0.3 0 1; 0.2/0.3 1 1; 0 1 1;
                   0.2/0.3 0.2/0.3 0; 0.2/0.3 0.2/0.3 1]';
 p = polyhedra(OPoints, [1 2 3 4; 2 2 9 3; 1 2 6 5; 2 3 7 6;
                           5 6 7 8; 6 6 10 7; 9 3 7 10; 3 4 8 7;
                           1 4 8 5; 2 9 10 6]);
 figure(1);
-title('SEQUENCE COMPLETED  both robots in rest position');
-if isgraphics(h_tocho)
-    delete(h_tocho);
-end
-h_tocho = plot(p, ht(T0obj_inicial), 'y');
+h_tocho = refresh_workpiece(h_tocho, p, T0obj_inicial, 'SEQUENCE COMPLETED  both robots in rest position');
 drawnow;
 
 msgbox('Program Finished  2 KR15 robots completed all cuts.');
